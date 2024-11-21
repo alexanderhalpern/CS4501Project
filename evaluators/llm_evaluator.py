@@ -1,6 +1,6 @@
+from evaluators.base import Evaluator
 
-class LLMEvaluator:
-
+class LLMEvaluator (Evaluator):
     def __init__(self, llm):
         self.llm = llm
 
@@ -30,14 +30,14 @@ class LLMEvaluator:
 
         evaluation = res.choices[0].message.content == "TRUE"
 
-        if evaluation == False:
-            print(f"Query: {query}")
-            print(f"Expected Results: {expected}")
-            print(f"Actual Results: {actual}")
-            print(f"Expected Query: {expected_query}")
-            print(f"Actual Query: {actual_query}")
-            print(f"Evaluation: {evaluation}")
-            print("----------------------------------")
+        # if evaluation == False:
+        #     print(f"Query: {query}")
+        #     print(f"Expected Results: {expected}")
+        #     print(f"Actual Results: {actual}")
+        #     print(f"Expected Query: {expected_query}")
+        #     print(f"Actual Query: {actual_query}")
+        #     print(f"Evaluation: {evaluation}")
+        #     print("----------------------------------")
 
         return evaluation
 
@@ -70,13 +70,13 @@ class LLMEvaluator:
 
         evaluation = res.choices[0].message.content == "TRUE"
 
-        if evaluation == False:
-            print(f"Query: {query}")
-            print(f"Expected Results: {expected}")
-            print(f"Actual Results: {actual}")
-            print(f"Expected Query: {expected_query}")
-            print(f"Actual Query: {actual_query}")
-            print(f"Evaluation: {evaluation}")
-            print("----------------------------------")
+        # if evaluation == False:
+        #     print(f"Query: {query}")
+        #     print(f"Expected Results: {expected}")
+        #     print(f"Actual Results: {actual}")
+        #     print(f"Expected Query: {expected_query}")
+        #     print(f"Actual Query: {actual_query}")
+        #     print(f"Evaluation: {evaluation}")
+        #     print("----------------------------------")
 
         return evaluation
