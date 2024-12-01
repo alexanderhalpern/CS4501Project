@@ -1,11 +1,25 @@
 from evaluators.base import Evaluator
 
+
 class LLMEvaluator (Evaluator):
     def __init__(self, llm):
         self.llm = llm
 
-    def evaluate(self, query, expected, actual, expected_query, actual_query):
-        # Evaluate the query
+    def truncate_list(self, data, max_length=100):
+        """
+        Truncates a list or string to a specified max length.
+        Adds an indicator if truncation occurs.
+        """
+        if isinstance(data, list):
+            return data[:max_length] + ["... (truncated)"] if len(data) > max_length else data
+        elif isinstance(data, str):
+            return data[:max_length] + "... (truncated)" if len(data) > max_length else data
+        return data
+
+
+    def evaluate(self, query, expected, actual):
+        truncated_expected = self.truncate_list(expected, max_length=100)
+        truncated_actual = self.truncate_list(actual, max_length=100)
         res = self.llm.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
@@ -19,10 +33,10 @@ class LLMEvaluator (Evaluator):
                     {query}
                     
                     EXPECTED:
-                    {expected}
+                    {truncated_expected}
                     
                     ACTUAL:
-                    {actual}
+                    {truncated_actual}
                     '''
                 },
             ]
@@ -42,7 +56,8 @@ class LLMEvaluator (Evaluator):
         return evaluation
 
     def evaluate_with_queries(self, query, expected, actual, expected_query, actual_query):
-        # Evaluate the query
+        truncated_expected = self.truncate_list(expected, max_length=100)
+        truncated_actual = self.truncate_list(actual, max_length=100)
         res = self.llm.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
@@ -58,11 +73,11 @@ class LLMEvaluator (Evaluator):
                     
                     QUERY 1 AND RESULTS:
                     {expected_query}
-                    {expected}
+                    {truncated_expected}
                     
                     QUERY 2 AND RESULTS:
                     {actual_query}
-                    {actual}
+                    {truncated_actual}
                     '''
                 },
             ]

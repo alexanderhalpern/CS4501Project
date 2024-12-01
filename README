@@ -1,0 +1,6 @@
+## To use the MySQL databases you must setup a database called SQLTests and import the data from the databases folder.
+
+```bash
+mysql -u root -p SQLTests < ./databases/nuclear_power_plants.sql
+mysql -u root -p SQLTests < ./databases/GreaterManchesterCrime.sql
+```
