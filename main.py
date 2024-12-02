@@ -17,6 +17,7 @@ my_sql_conn = mysql.connector.connect(
     password="Ajh020304",
     database="SQLTests"
 )
+spatialite_path = "/opt/homebrew/lib/mod_spatialite.dylib"
 
 def test():
     llm = OpenAI()
@@ -59,6 +60,8 @@ def test():
             sql_generator = SQLGenerator(llm, cursor)
         else:
             sqlite_conn = sqlite3.connect(f"./databases/{database}")
+            sqlite_conn.enable_load_extension(True)
+            sqlite_conn.load_extension(spatialite_path)
             cursor = sqlite_conn.cursor()
             sql_generator = SQLGenerator(llm, cursor)
 
